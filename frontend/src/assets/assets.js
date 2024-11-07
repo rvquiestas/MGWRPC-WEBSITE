@@ -1,5 +1,5 @@
 import black_logo from "./black_logo.png";
-import noBG_logo from "./noBg_logo.png";
+import noBG_logo from "./noBG_logo.png";
 import orig_logo from "./orig_logo.png";
 import white_logo from "./white_logo.png";
 
