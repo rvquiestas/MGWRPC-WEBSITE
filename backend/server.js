@@ -15,7 +15,7 @@ connectDB()
 connectCloudinary()
 
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: ['https://mgwrpc-frontend.vercel.app', 'https://mgwrpc-admin.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }
