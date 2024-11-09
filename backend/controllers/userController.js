@@ -6,15 +6,15 @@ import nodemailer from 'nodemailer';
 
 // Generate JWT token
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET);
+    return jwt.sign({ id }, "mgwrpc");
 };
 
 // Transporter for nodemailer (using Gmail)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: "dalmitwo@gmail.com",
+        pass: "jyxy mexn eavj bimf"
     }
 });
 
@@ -37,7 +37,7 @@ export const loginUser = async (req, res) => {
 
             // Send OTP email
             const mailOptions = {
-                from: process.env.EMAIL_USER,
+                from: "dalmitwo@gmail.com",
                 to: email,
                 subject: 'Login OTP Verification',
                 text: `Your OTP code is ${otp}`
@@ -126,8 +126,8 @@ export const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET);
+        if (email === "admin@mgwr.com" && password === "mgwrpc123") {
+            const token = jwt.sign(email + password, "mgwrpc");
             res.json({ success: true, token });
         } else {
             res.json({ success: false, message: "Invalid Credentials" });
