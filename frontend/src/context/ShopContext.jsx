@@ -10,7 +10,7 @@ const ShopContextProvider = (props) => {
 
     const currency = '₱';
     const delivery_fee = 100;
-    const backendUrl = import.meta.env.VITE_BACKEND_URL //backend to frontend
+    const backendUrl = "https://mgwrpc-backend.vercel.app" //backend to frontend
     const [search,setSearch] = useState('');
     const [showSearch,setShowSearch] = useState(false);
     const [cartItems,setCartItems] = useState({});
