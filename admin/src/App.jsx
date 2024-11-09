@@ -10,7 +10,7 @@ import EditProduct from './pages/EditProduct'; // Import the EditProduct compone
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const backendUrl = import.meta.env.VITE_BACKEND_URL;
+export const backendUrl = "https://mgwrpc-backend.vercel.app";
 export const currency = '₱';
 
 const App = () => {
