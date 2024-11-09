@@ -7,7 +7,7 @@ const currency = 'php'
 const deliveryCharge = 100
 
 // gateway initialize
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = new Stripe("sk_test_51QH50HAG8M18owNd4XrElE873j6zSmhVbx6oLD5CNunLy3hMacfhUSzUm0L79EPapsiS4CWUpFtFXhjmpCmN8Wjt00dY5JpfaS")
 
 // Placing Orders Using COD Method
 const placeOrder = async (req, res) => {
