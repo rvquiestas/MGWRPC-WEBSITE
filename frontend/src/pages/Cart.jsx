@@ -77,20 +77,30 @@ const Cart = () => {
               </Link>
 
               {/* Quantity input */}
-              <div className="items-center">
-                <span className="pr-2 2xl:text-2xl">Quantity: </span>
-                <input
-                  onChange={(e) =>
-                    e.target.value === "" || e.target.value === "0"
-                      ? null
-                      : updateQuantity(item._id, Number(e.target.value))
-                  }
-                  className="border border-darkText max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 2xl:text-2xl"
-                  type="number"
-                  min={1}
-                  defaultValue={item.quantity}
-                />
-              </div>
+<div className="items-center flex gap-2">
+  <span className="pr-2 2xl:text-2xl">Quantity: </span>
+  <input
+    onChange={(e) => {
+      const value = Number(e.target.value);
+      if (value === 0 || e.target.value === "") return; // Prevent 0 or empty value
+      if (value > productData.stock) {
+        // Set to stock if input exceeds available stock
+        e.target.value = productData.stock;
+        updateQuantity(item._id, productData.stock);
+      } else {
+        updateQuantity(item._id, value);
+      }
+    }}
+    className="border border-darkText max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 2xl:text-2xl"
+    type="number"
+    min={1}
+    max={productData.stock} // Set max value to stock
+    defaultValue={item.quantity}
+  />
+  <span className="text-gray-500 text-xs sm:text-sm 2xl:text-lg">
+    Stocks: {productData.stock}
+  </span>
+</div>
               <RiDeleteBin6Line
                 onClick={() => updateQuantity(item._id, 0)}
                 className="text-xl mr-4 sm:w-5 2xl:text-2xl 2xl:w-10 cursor-pointer hover:text-redText"
