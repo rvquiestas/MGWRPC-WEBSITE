@@ -95,7 +95,7 @@ const Product = () => {
             <div className="text-sm 2xl:text-lg font-medium text-gray-700">
               {remainingStock > 0 ? (
                 <p className="text-green-600">
-                  Available Stock: {remainingStock}
+                  In Stock
                 </p>
               ) : (
                 <p className="text-red-600">Out of stock</p>
