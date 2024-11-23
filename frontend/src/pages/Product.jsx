@@ -24,7 +24,7 @@ const Product = () => {
   const handleAddToCart = () => {
     if (remainingStock > 0) {
       addToCart(productData._id);
-      setRemainingStock(remainingStock - 1); // Decrease stock when added to cart
+      //setRemainingStock(remainingStock - 1); // Decrease stock when added to cart
     }
   };
 
