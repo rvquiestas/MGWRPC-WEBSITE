@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "./../context/ShopContext";
 import RelatedProducts from "../components/RelatedProducts";
+import { Rate } from "antd";
 
 const Product = () => {
   const { productId } = useParams();
@@ -9,13 +10,13 @@ const Product = () => {
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
   const [remainingStock, setRemainingStock] = useState(0); // New state to track stock
-  
+
   const fetchProductData = async () => {
     products.map((item) => {
       if (item._id === productId) {
         setProductData(item);
         setImage(item.image[0]);
-        setRemainingStock(item.stock); // Set initial stock value
+        setRemainingStock(item.availableStock); // Set initial stock value
         return null;
       }
     });
@@ -56,7 +57,9 @@ const Product = () => {
 
         {/* -------- Product Info -------- */}
         <div className="flex-1">
-          <h1 className="font-bold text-2xl 2xl:text-4xl mt-2">{productData.name}</h1>
+          <h1 className="font-bold text-2xl 2xl:text-4xl mt-2">
+            {productData.name}
+          </h1>
           <p className="mt-5 text-2xl 2xl:text-4xl font-medium">
             {currency}
             {new Intl.NumberFormat().format(productData.price)}
@@ -64,15 +67,29 @@ const Product = () => {
           <p className="mt-5 text-gray-500 2xl:text-2xl md:w-4/5 text-justify">
             {productData.description}
           </p>
-
-          <div className="mt-10">
-            {/* ------ Product Small Details ------ */}
-            <h3 className="mt-4 text-sm 2xl:text-2xl font-medium text-gray-900">Details</h3>
+          <div className="mt-4">
+            <h3 className="text-sm 2xl:text-2xl font-medium text-gray-900">
+              Rating
+            </h3>
             <div className="mt-4">
-              <ul role="list" className="list-disc space-y-2 pl-4 text-sm 2xl:text-2xl">
+              <Rate allowHalf defaultValue={2.5} />
+            </div>
+          </div>
+          <div className="mt-4">
+            {/* ------ Product Small Details ------ */}
+            <h3 className="mt-4 text-sm 2xl:text-2xl font-medium text-gray-900">
+              Details
+            </h3>
+            <div className="mt-4">
+              <ul
+                role="list"
+                className="list-disc space-y-2 pl-4 text-sm 2xl:text-2xl"
+              >
                 {productData.details.map((detail) => (
                   <li key={detail} className="text-gray-400">
-                    <span className="text-gray-600 text-md 2xl:text-lg">{detail}</span>
+                    <span className="text-gray-600 text-md 2xl:text-lg">
+                      {detail}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -94,9 +111,7 @@ const Product = () => {
             </button>
             <div className="text-sm 2xl:text-lg font-medium text-gray-700">
               {remainingStock > 0 ? (
-                <p className="text-green-600">
-                  In Stock
-                </p>
+                <p className="text-green-600">In Stock</p>
               ) : (
                 <p className="text-red-600">Out of stock</p>
               )}
@@ -108,11 +123,16 @@ const Product = () => {
       {/* ------------ Specification ------------ */}
       <div className="mt-20">
         <div className="flex">
-          <b className="border px-5 py-3 text-sm 2xl:text-2xl">Specifications</b>
+          <b className="border px-5 py-3 text-sm 2xl:text-2xl">
+            Specifications
+          </b>
         </div>
         <div className="flex flex-col gap-4 border px-6 py-6">
           <div className="mt-4">
-            <ul role="list" className="list-disc space-y-2 pl-4 text-sm 2xl:text-xl">
+            <ul
+              role="list"
+              className="list-disc space-y-2 pl-4 text-sm 2xl:text-xl"
+            >
               {productData.specs.map((spec) => (
                 <li key={spec} className="text-gray-700">
                   <span className="text-gray-600">{spec}</span>

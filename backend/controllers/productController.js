@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import productModel from "../models/productModel.js";
+import orderModel from "../models/orderModel.js";
 
 // Add Product Function
 const addProduct = async (req, res) => {
@@ -70,7 +71,26 @@ const addProduct = async (req, res) => {
 const listProducts = async (req, res) => {
   try {
     const products = await productModel.find({});
-    res.json({ success: true, products });
+    const transformedProducts = products.map(async (product) => {
+      const orders = await orderModel.find({
+        status: "Order Placed",
+        "items._id": product.get("_id").toString(),
+      });
+      const totalOrderedQuantity = orders.reduce((acc, order) => {
+        const item = order.items.find(
+          (item) => item._id.toString() === product._id.toString()
+        );
+        return acc + (item ? item.quantity : 0);
+      }, 0);
+      return {
+        ...product._doc,
+        availableStock: product._doc.stock - totalOrderedQuantity,
+      };
+    });
+    res.json({
+      success: true,
+      products: await Promise.all(transformedProducts),
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

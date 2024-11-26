@@ -1,4 +1,4 @@
-import userModel from './../models/userModel.js';
+import userModel from "./../models/userModel.js";
 
 // Add Products to User Cart
 const addToCart = async (req, res) => {
@@ -11,16 +11,17 @@ const addToCart = async (req, res) => {
     // Initialize cartData if it doesn't exist
     let cartData = userData.cartData || {}; // If cartData is undefined, initialize it as an empty object
 
-    // Check if the item already exists in the cart
-    if (cartData[itemId]) {
-      cartData[itemId] += 1; // Increment the quantity
-    } else {
-      cartData[itemId] = 1; // Set initial quantity
-    }
-
-    // Update the user's cart data in the database
-    userData.cartData = cartData; // Update the cartData in the user document
-    await userData.save(); // Save the updated user data
+    // Update card data
+    await userModel.updateOne(
+      { _id: userId },
+      {
+        $set: {
+          [`cartData.${itemId}`]:
+            // Increment quantity if item already exists in the cart, else default to 1
+            cartData && cartData[itemId] ? cartData[itemId] + 1 : 1,
+        },
+      }
+    );
 
     res.json({ success: true, message: "Added To Cart" });
   } catch (error) {
