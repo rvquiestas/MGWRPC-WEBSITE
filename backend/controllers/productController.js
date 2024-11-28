@@ -55,8 +55,6 @@ const addProduct = async (req, res) => {
       stock: Number(stock), // Added stock field
     };
 
-    console.log(productData);
-
     const product = new productModel(productData);
     await product.save();
 
@@ -113,7 +111,23 @@ const singleProduct = async (req, res) => {
   try {
     const { productId } = req.body;
     const product = await productModel.findById(productId);
-    res.json({ success: true, product });
+    const orders = await orderModel.find({
+      status: "Order Placed",
+      "items._id": product.get("_id").toString(),
+    });
+    const totalOrderedQuantity = orders.reduce((acc, order) => {
+      const item = order.items.find(
+        (item) => item._id.toString() === product._id.toString()
+      );
+      return acc + (item ? item.quantity : 0);
+    }, 0);
+    res.json({
+      success: true,
+      product: {
+        ...product,
+        availableStock: product.get("stock") - totalOrderedQuantity,
+      },
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

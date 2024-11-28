@@ -34,26 +34,26 @@ const Product = () => {
   }, [productId]);
 
   const handleAddToCart = () => {
-    if (product.stock > 0) {
-      if (cartItems[productData._id] < product.stock) {
-        addToCart(productData._id);
-        notification.success({
-          message: "That was easy!",
-          description: "The product was added to the cart",
-        });
-      } else {
-        notification.warning({
-          message: "Product is out of stock",
-          description: "Please check your cart",
-        });
+    getProductData({
+      productId,
+    }).then((res) => {
+      console.log(res.product);
+      if (res.product.availableStock > 0) {
+        if ((cartItems && cartItems[productData._id]? cartItems[productData._id]: 0) < res.product.availableStock) {
+          addToCart(productData._id);
+          notification.success({
+            message: "That was easy!",
+            description: "The product was added to the cart",
+          });
+        } else {
+          notification.warning({
+            message: "Product is out of stock",
+            description: "Please check your cart",
+          });
+        }
+        //setRemainingStock(remainingStock - 1); // Decrease stock when added to cart
       }
-      getProductData({
-        productId,
-      }).then((res) => {
-        console.log(product);
-      });
-      //setRemainingStock(remainingStock - 1); // Decrease stock when added to cart
-    }
+    });
   };
 
   useEffect(() => {
@@ -139,13 +139,13 @@ const Product = () => {
             <div className="text-sm 2xl:text-lg font-medium text-gray-700">
               {isLoading && (
                 <p className="text-gray-700">
-                  <Spin className="mx-5"/>
+                  <Spin className="mx-5" />
                   Checking available stock
                 </p>
               )}
-              {product.stock > 0 ? (
+              {product.availableStock > 0 ? (
                 <p className="text-green-600" hidden={isLoading}>
-                  In Stock ({product.stock})
+                  In Stock ({product.availableStock})
                 </p>
               ) : (
                 <p className="text-red-600" hidden={isLoading}>
