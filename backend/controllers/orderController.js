@@ -134,12 +134,6 @@ const userOrders = async (req, res) => {
     const { userId } = req.body;
 
     const orders = await orderModel.find({ userId });
-    // const transformedOrders = orders.map(async (order) => ({
-    //   const rate = await ratingModel.findOne({
-    //     userId,
-    //     productId: order.items[0]._id,
-    //   })
-    // }));
     res.json({ success: true, orders });
   } catch (error) {
     console.log(error);

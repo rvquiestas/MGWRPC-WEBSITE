@@ -5,7 +5,7 @@ const ratingSchema = new mongoose.Schema({
   productId: { type: String, required: true },
   orderId: { type: String, required: true },
   rate: { type: Number, required: true },
-  remarks: { type: Object, required: true, default: "" },
+  remarks: { type: String, required: true, default: "" },
   insertedOn: { type: Number, required: true },
   updatedOn: { type: Number, required: true },
 });

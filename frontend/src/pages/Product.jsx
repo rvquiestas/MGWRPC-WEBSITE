@@ -2,21 +2,30 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "./../context/ShopContext";
 import RelatedProducts from "../components/RelatedProducts";
-import { notification, Rate, Spin } from "antd";
+import { notification, Rate, Spin, Tabs } from "antd";
 import useGetProductData from "./hooks/useGetProductData";
+import useGetProductRatings from "./hooks/useGetProductRatings";
+import ViewRatings from "./components/ViewRatings/ViewRatings";
 
 const Product = () => {
   const { productId } = useParams();
   const { products, currency, addToCart, cartItems } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
+  const { getProductRatings } = useGetProductRatings();
   const [remainingStock, setRemainingStock] = useState(0); // New state to track stock
+  const [ratings, setRatings] = useState([]);
   const {
     productData: product,
     mutateAsync: getProductData,
     isLoading,
   } = useGetProductData();
 
+  useEffect(() => {
+    getProductRatings.mutateAsync({ productId }).then((r) => {
+      setRatings(r.ratings);
+    });
+  }, []);
   const fetchProductData = async () => {
     products.map((item) => {
       if (item._id === productId) {
@@ -39,7 +48,11 @@ const Product = () => {
     }).then((res) => {
       console.log(res.product);
       if (res.product.availableStock > 0) {
-        if ((cartItems && cartItems[productData._id]? cartItems[productData._id]: 0) < res.product.availableStock) {
+        if (
+          (cartItems && cartItems[productData._id]
+            ? cartItems[productData._id]
+            : 0) < res.product.availableStock
+        ) {
           addToCart(productData._id);
           notification.success({
             message: "That was easy!",
@@ -95,14 +108,6 @@ const Product = () => {
             {productData.description}
           </p>
           <div className="mt-4">
-            <h3 className="text-sm 2xl:text-2xl font-medium text-gray-900">
-              Rating
-            </h3>
-            <div className="mt-4">
-              <Rate allowHalf defaultValue={2.5} />
-            </div>
-          </div>
-          <div className="mt-4">
             {/* ------ Product Small Details ------ */}
             <h3 className="mt-4 text-sm 2xl:text-2xl font-medium text-gray-900">
               Details
@@ -156,29 +161,43 @@ const Product = () => {
           </div>
         </div>
       </div>
-
-      {/* ------------ Specification ------------ */}
-      <div className="mt-20">
-        <div className="flex">
-          <b className="border px-5 py-3 text-sm 2xl:text-2xl">
-            Specifications
-          </b>
-        </div>
-        <div className="flex flex-col gap-4 border px-6 py-6">
-          <div className="mt-4">
-            <ul
-              role="list"
-              className="list-disc space-y-2 pl-4 text-sm 2xl:text-xl"
-            >
-              {productData.specs.map((spec) => (
-                <li key={spec} className="text-gray-700">
-                  <span className="text-gray-600">{spec}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+      <Tabs
+        defaultActiveKey="1"
+        items={[
+          {
+            key: "1",
+            label: "Specifications",
+            children: (
+              <div className="flex flex-col gap-4 border px-6 py-6">
+                <div className="mt-4">
+                  <ul
+                    role="list"
+                    className="list-disc space-y-2 pl-4 text-sm 2xl:text-xl"
+                  >
+                    {productData.specs.map((spec) => (
+                      <li key={spec} className="text-gray-700">
+                        <span className="text-gray-600">{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ),
+          },
+          {
+            key: "2",
+            label: "Ratings",
+            children: (
+              <div className="flex flex-col gap-4 border px-6 py-6">
+                <div className="mt-4">
+                  <ViewRatings ratings={ratings} />
+                </div>
+              </div>
+            ),
+          },
+        ]}
+        // onChange={onChange}
+      />
 
       {/* ------------ Related Products ------------ */}
       <RelatedProducts category={productData.category} />

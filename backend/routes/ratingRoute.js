@@ -1,7 +1,12 @@
 import express from "express";
-import { postProductRating } from "../controllers/ratingController.js";
+import {
+  getProductRating,
+  postProductRating,
+} from "../controllers/ratingController.js";
+import authUser from "../middleware/auth.js";
 
 const ratingRouter = express.Router();
 
-ratingRouter.post("/rate", postProductRating);
+ratingRouter.post("/", authUser, postProductRating);
+ratingRouter.get("/", getProductRating);
 export default ratingRouter;
