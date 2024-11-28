@@ -7,7 +7,7 @@ export default defineConfig({
   server: {port: 5174},
   define: {
     "process.env": {
-      REACT_APP_VITE_BACKEND_URL: "localhost:4000",
+      REACT_APP_VITE_BACKEND_URL: "https://mgwrpc-backend.vercel.app",
     },
   },
 })
