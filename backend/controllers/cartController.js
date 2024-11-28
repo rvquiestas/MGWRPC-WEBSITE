@@ -11,6 +11,8 @@ const addToCart = async (req, res) => {
     // Initialize cartData if it doesn't exist
     let cartData = userData.cartData || {}; // If cartData is undefined, initialize it as an empty object
 
+    // Check if cart item have available stock --For Implementation
+
     // Update card data
     await userModel.updateOne(
       { _id: userId },
@@ -38,15 +40,15 @@ const updateCart = async (req, res) => {
     // Get the user's data
     const userData = await userModel.findById(userId);
 
-    // Initialize cartData if it doesn't exist
-    let cartData = userData.cartData || {}; // If cartData is undefined, initialize it as an empty object
-
-    // Update the quantity of the item in the cart
-    cartData[itemId] = quantity;
-
-    // Update the user's cart data in the database
-    userData.cartData = cartData;
-    await userData.save(); // Save the updated user data
+    // Update card data
+    await userModel.updateOne(
+      { _id: userId },
+      {
+        $set: {
+          [`cartData.${itemId}`]: quantity,
+        },
+      }
+    );
 
     res.json({ success: true, message: "Cart Updated" });
   } catch (error) {

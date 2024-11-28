@@ -46,7 +46,6 @@ const Cart = () => {
           const productData = products.find(
             (product) => product._id === item._id
           );
-
           return (
             <div
               key={index}

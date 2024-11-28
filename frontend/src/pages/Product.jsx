@@ -2,14 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "./../context/ShopContext";
 import RelatedProducts from "../components/RelatedProducts";
-import { Rate } from "antd";
+import { notification, Rate } from "antd";
+import useGetProductData from "./hooks/useGetProductData";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const { products, currency, addToCart, cartItems } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
   const [remainingStock, setRemainingStock] = useState(0); // New state to track stock
+  const {
+    productData: product,
+    mutateAsync: getProductData,
+    isLoading,
+  } = useGetProductData();
 
   const fetchProductData = async () => {
     products.map((item) => {
@@ -21,10 +27,31 @@ const Product = () => {
       }
     });
   };
+  useEffect(() => {
+    getProductData({
+      productId,
+    });
+  }, [productId]);
 
   const handleAddToCart = () => {
-    if (remainingStock > 0) {
-      addToCart(productData._id);
+    if (product.stock > 0) {
+      if (cartItems[productData._id] < product.stock) {
+        addToCart(productData._id);
+        notification.success({
+          message: "That was easy!",
+          description: "The product was added to the cart",
+        });
+      } else {
+        notification.warning({
+          message: "Product is out of stock",
+          description: "Please check your cart",
+        });
+      }
+      getProductData({
+        productId,
+      }).then((res) => {
+        console.log(product);
+      });
       //setRemainingStock(remainingStock - 1); // Decrease stock when added to cart
     }
   };
@@ -99,19 +126,19 @@ const Product = () => {
           {/* --------- Add To Cart and Stock --------- */}
           <div className="flex items-center gap-4 mt-4">
             <button
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart()}
               className={`bg-darkText text-whiteText px-8 py-3 text-sm 2xl:text-lg ${
-                remainingStock === 0
+                product.stock === 0
                   ? "bg-gray-400 cursor-not-allowed"
                   : "active:bg-gray-700 hover:bg-orangeText"
               }`}
-              disabled={remainingStock === 0} // Disable button if out of stock
+              disabled={product.stock === 0} // Disable button if out of stock
             >
               Add to Cart
             </button>
             <div className="text-sm 2xl:text-lg font-medium text-gray-700">
-              {remainingStock > 0 ? (
-                <p className="text-green-600">In Stock</p>
+              {product.stock > 0 ? (
+                <p className="text-green-600">In Stock ({product.stock})</p>
               ) : (
                 <p className="text-red-600">Out of stock</p>
               )}
