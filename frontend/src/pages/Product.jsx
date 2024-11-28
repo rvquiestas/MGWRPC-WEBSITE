@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "./../context/ShopContext";
 import RelatedProducts from "../components/RelatedProducts";
-import { notification, Rate } from "antd";
+import { notification, Rate, Spin } from "antd";
 import useGetProductData from "./hooks/useGetProductData";
 
 const Product = () => {
@@ -137,10 +137,20 @@ const Product = () => {
               Add to Cart
             </button>
             <div className="text-sm 2xl:text-lg font-medium text-gray-700">
+              {isLoading && (
+                <p className="text-gray-700">
+                  <Spin className="mx-5"/>
+                  Checking available stock
+                </p>
+              )}
               {product.stock > 0 ? (
-                <p className="text-green-600">In Stock ({product.stock})</p>
+                <p className="text-green-600" hidden={isLoading}>
+                  In Stock ({product.stock})
+                </p>
               ) : (
-                <p className="text-red-600">Out of stock</p>
+                <p className="text-red-600" hidden={isLoading}>
+                  Out of stock
+                </p>
               )}
             </div>
           </div>
