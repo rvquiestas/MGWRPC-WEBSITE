@@ -24,7 +24,7 @@ const ViewRatings = ({ ratings }) => {
                 }
                 title={
                   <Row gutter={5}>
-                    <Col span={24}>{new Date(item.updatedOn).toString()}</Col>
+                    <Col span={24}>{new Date(item.updatedOn).toLocaleString()}</Col>
                     <Col span={24}>{item.user.name}</Col>
                     <Col span={24}>
                       <Rate allowHalf disabled value={item.rate} />
