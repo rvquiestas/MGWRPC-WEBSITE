@@ -25,7 +25,9 @@ const postProductRating = async (req, res) => {
       await ratingModel.insertMany([newRating]);
       res.json({ success: true, message: "Product successfully rated." });
     } else {
-      await ratingModel.deleteMany({ userId, productId, orderId });
+      await ratingModel.deleteMany({ userId, productId, orderId }).then(async () => {
+        await ratingModel.insertMany([newRating]);
+      });
       res.json({ success: true, message: "Rating has been changed." });
     }
   } catch (error) {

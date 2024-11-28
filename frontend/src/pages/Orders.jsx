@@ -155,6 +155,7 @@ const Orders = () => {
                       }
                     />
                     <Button
+                      hidden={item.status !== "Delivered"}
                       onClick={() =>
                         setRateProduct({
                           isModalOpen: true,
