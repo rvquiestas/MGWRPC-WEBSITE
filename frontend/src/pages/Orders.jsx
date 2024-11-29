@@ -80,7 +80,7 @@ const Orders = () => {
           {(_r.status === "Waiting for Confirmation" ||
             _r.status === "Order Placed" ||
             _r.status === "Packing") && (
-            <Button danger onClick={() => cancelOrder(_v.data)}>
+            <Button danger onClick={() => cancelOrder(_v)}>
               Cancel Order
             </Button>
           )}
@@ -91,6 +91,7 @@ const Orders = () => {
 
   // Cancel order handler with confirmation
   const cancelOrder = async (orderId) => {
+    console.log(orderId)
     const confirmCancel = window.confirm(
       "Are you sure you want to cancel this order?"
     );
