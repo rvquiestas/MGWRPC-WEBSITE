@@ -29,7 +29,7 @@ const EditProduct = ({ token }) => {
         { headers: { token } }
       );
       if (response.data.success) {
-        const fetchedProduct = response.data.product;
+        const fetchedProduct = response.data.product._doc;
         setProduct(fetchedProduct);
         setName(fetchedProduct.name);
         setPrice(fetchedProduct.price);
