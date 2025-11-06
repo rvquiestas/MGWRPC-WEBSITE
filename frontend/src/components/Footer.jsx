@@ -61,13 +61,13 @@ const Footer = () => {
                 &copy; 2024 MGWR PC. All Rights Reserved.
             </span>
             <div className='flex mt-4 sm:justify-center sm:mt-0'>
-                <Link  to='https://www.facebook.com/mgwrpccalamba' className='text-gray-500 hover:text-orangeText' target="_blank" rel="noopener noreferrer">
+                <Link  to='https://www.facebook.com/compaxitsolutions' className='text-gray-500 hover:text-orangeText' target="_blank" rel="noopener noreferrer">
                     <FaFacebook className='w- h-" aria-hidden="true"'/>
                 </Link>
                 <Link  to='https://www.instagram.com/mgwrpc/?hl=en' className='text-gray-500 hover:text-orangeText' target="_blank" rel="noopener noreferrer">
                     <FaInstagram className='w-4 h-4" aria-hidden="true" ms-5'/>
                 </Link>
-                <Link  to='https://www.tiktok.com/@mgwrpctrading?lang=en' className='text-gray-500 hover:text-orangeText' target="_blank" rel="noopener noreferrer">
+                <Link  to='https://www.tiktok.com/@compaxitsolutions?lang=en' className='text-gray-500 hover:text-orangeText' target="_blank" rel="noopener noreferrer">
                     <FaTiktok className='w-4 h-4" aria-hidden="true" ms-5'/>
                 </Link>
             </div>
