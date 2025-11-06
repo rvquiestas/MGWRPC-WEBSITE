@@ -61,7 +61,7 @@ The purpose of this website is to:
 - **Tailwind CSS** – Styling and responsiveness  
 - **Node.js & Express.js** – Backend server  
 - **MongoDB** – Database for storing products and orders  
-- **Firebase** – For authentication and image storage  
+- **Cloudinary** – For image management
 - **Stripe JS** – For payment processing  
 
 ---
