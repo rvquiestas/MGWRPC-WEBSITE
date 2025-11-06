@@ -10,7 +10,7 @@ Actual transactions made through this site **will not reach MGWR PC**.
 # 🖥️ Website with Ordering System for MGWR PC
 
 A web-based ordering system designed for **MGWR PC** to simplify product management and enhance the online shopping experience.  
-This project allows users to browse, order, and manage products efficiently — while giving the admin full control over product inventory and customer orders.
+This project allows users to browse, order, and manage products efficiently, while giving the admin full control over product inventory and customer orders.
 
 ---
 
